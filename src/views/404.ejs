@@ -1,67 +1,15 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Erro de Segurança</title>
+<%- include("./includes/head"); %> <%- include("./includes/navbar"); %>
 
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #0f172a;
-        font-family: Arial, Helvetica, sans-serif;
-        color: #e5e7eb;
-      }
-
-      .container {
-        text-align: center;
-        max-width: 420px;
-        padding: 2rem;
-        background: #020617;
-        border-radius: 12px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      }
-
-      h1 {
-        margin-bottom: 1rem;
-        color: #f87171;
-      }
-
-      p {
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
-        color: #cbd5f5;
-      }
-
-      a {
-        display: inline-block;
-        padding: 0.6rem 1.2rem;
-        background: #2563eb;
-        color: #fff;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-      }
-
-      a:hover {
-        background: #1d4ed8;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <h1>Erro de Segurança (CSRF)</h1>
-      <p>
-        Sua sessão expirou ou a requisição não pôde ser validada. Por segurança,
-        a operação foi bloqueada.
-      </p>
-
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+      <h1 class="display-1 text-center">Erro 404!</h1>
+      <p class="text-center lead">Página não encontrada...</p>
       <a href="/">Voltar para a página inicial</a>
     </div>
-  </body>
-</html>
+    <div class="col-lg-2"></div>
+  </div>
+</div>
+
+<%- include("./includes/footer"); %>
