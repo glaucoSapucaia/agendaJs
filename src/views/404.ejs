@@ -1,14 +1,21 @@
 <%- include("./includes/head"); %> <%- include("./includes/navbar"); %>
 
 <div class="container">
-  <div class="row">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-8">
-      <h1 class="display-1 text-center">Erro 404!</h1>
-      <p class="text-center lead">Página não encontrada...</p>
-      <a href="/">Voltar para a página inicial</a>
+  <div class="row justify-content-center">
+    <div class="col-lg-6 my-4">
+      <!-- Card -->
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h1 class="display-4 text-danger mb-3">Erro 404</h1>
+
+          <p class="lead mb-4">
+            A página que você está procurando não foi encontrada.
+          </p>
+
+          <a href="/" class="btn btn-dark"> Voltar para a página inicial </a>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-2"></div>
   </div>
 </div>
 

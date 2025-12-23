@@ -1,0 +1,57 @@
+<%- include("./includes/head"); %> <%- include("./includes/navbar"); %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 my-4">
+      <h1 class="text-center">Criar conta</h1>
+      <p class="text-center lead">Cadastre-se para acessar o App Agenda</p>
+
+      <!-- Card -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <!-- Form Register -->
+          <form action="/register" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Senha</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-block">
+              Criar cadastro
+            </button>
+          </form>
+
+          <hr />
+
+          <!-- Voltar para login -->
+          <p class="text-center mb-2">Já possui uma conta?</p>
+
+          <a href="/login" class="btn btn-outline-secondary btn-block">
+            Entrar no sistema
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("./includes/footer"); %>
