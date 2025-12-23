@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcryptjs = require("bcryptjs");
 
 const RegisterSchema = new mongoose.Schema({
   email: { type: String, required: true },
@@ -21,6 +22,8 @@ class Register {
     if (this.errors.length > 0) return;
 
     try {
+      const salt = bcryptjs.genSaltSync();
+      this.body.password = bcryptjs.hashSync(this.body.password, salt);
       this.user = await RegisterModel.create(this.body);
       this.success.push(`Usuário ${this.body.email} registrado com sucesso!`);
     } catch (e) {
@@ -30,6 +33,12 @@ class Register {
 
   fieldsValidation() {
     this.cleanData();
+    const user = this.userExists();
+
+    if (user) {
+      this.errors.push(`O usuário ${this.body.email} já existe!`);
+    }
+
     if (!validator.isEmail(this.body.email)) {
       this.errors.push("Email inválido!");
     }
@@ -50,6 +59,10 @@ class Register {
       email: this.body.email,
       password: this.body.password,
     };
+  }
+
+  async userExists() {
+    await RegisterModel.findOne({ email: this.body.email });
   }
 }
 
