@@ -21,13 +21,24 @@
         </a>
       </li>
 
+      <% if (user) { %>
       <li class="nav-item">
         <a class="nav-link" href="/contacts">Contatos</a>
       </li>
-
+      <% } %>
+      
+      <% if (user) { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/lougout">Sair</a>
+      </li>
+      <% } %>
+      
+      <% if (!user) { %>
       <li class="nav-item">
         <a class="nav-link" href="/login">Login</a>
       </li>
+      <% } %>
+
     </ul>
   </div>
 </nav>

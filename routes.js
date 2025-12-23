@@ -8,6 +8,7 @@ const contactsController = require("./src/controllers/contactController");
 route.get("/", homeController.index);
 
 route.get("/login", loginController.index);
+route.get("/lougout", loginController.logout);
 route.post("/login", loginController.login);
 
 route.get("/register", registerController.index);

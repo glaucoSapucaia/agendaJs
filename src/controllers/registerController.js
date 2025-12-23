@@ -1,4 +1,4 @@
-const Register = require("../models/registerModel");
+const Register = require("../models/userModel");
 
 exports.index = (req, res) => {
   res.render("register");
@@ -6,7 +6,7 @@ exports.index = (req, res) => {
 exports.register = async (req, res) => {
   try {
     const register = new Register(req.body);
-    await register.verifyUser();
+    await register.verifyUserRegister();
 
     if (register.errors.length > 0) {
       req.flash("errors", register.errors);

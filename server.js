@@ -10,7 +10,7 @@ const {
   csrfErrorMiddleware,
   csrfMiddleware,
 } = require("./src/middlewares/csrfMiddlewares");
-const { msgMiddleware } = require("./src/middlewares/msgMiddleware");
+const { globalMiddleware } = require("./src/middlewares/globalMiddleware");
 const routes = require("./routes");
 const app = express();
 const helmet = require("helmet");
@@ -75,7 +75,7 @@ app.use(flash());
 app.use(csurf());
 app.use(csrfMiddleware);
 app.use(csrfErrorMiddleware);
-app.use(msgMiddleware);
+app.use(globalMiddleware);
 app.use(routes);
 
 app.on("db_connected", () => {
