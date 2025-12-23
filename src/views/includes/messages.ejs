@@ -1,0 +1,7 @@
+<% if (errors && errors.length) { %> <% errors.forEach(function (e) { %>
+<div class="alert alert-danger text-center"><%= e %></div>
+<% }) %> <% } %>
+
+<% if (success && success.length) { %> <% success.forEach(function (e) { %>
+<div class="alert alert-success text-center"><%= e %></div>
+<% }) %> <% } %>

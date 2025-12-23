@@ -1,2 +1,3 @@
 src/views/includes/head.ejs
 src/views/includes/footer.ejs
+src/views/includes/messages.ejs
