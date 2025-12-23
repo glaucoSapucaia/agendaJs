@@ -1,0 +1,13 @@
+<%- include("includes/head"); %>
+
+<h1>Página renderizada com EJS (views)</h1>
+<section class="container">
+  <form action="/" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label for="cliente">Cliente</label>
+    <input type="text" name="cliente" id="cliente" />
+    <button>Enviar</button>
+  </form>
+</section>
+
+<%- include('includes/footer'); %>
