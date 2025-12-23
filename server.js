@@ -44,7 +44,31 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "public")));
 app.set("views", path.resolve(__dirname, "src", "views"));
 app.set("view engine", "ejs");
-app.use(helmet());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        scriptSrc: [
+          "'self'",
+          "https://code.jquery.com",
+          "https://cdn.jsdelivr.net",
+        ],
+
+        styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+
+        fontSrc: ["'self'", "https://cdn.jsdelivr.net"],
+
+        imgSrc: ["'self'", "data:"],
+
+        connectSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      },
+    },
+  })
+);
+
 app.use(sessionOpts);
 app.use(flash());
 app.use(csurf());
