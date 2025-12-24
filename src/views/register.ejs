@@ -12,7 +12,7 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <!-- Form Register -->
-          <form action="/register" method="POST">
+          <form action="/register" method="POST" data-validate="userValidator">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
             <div class="form-group">

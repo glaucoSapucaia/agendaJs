@@ -76,7 +76,7 @@ class Contact {
   }
 
   static async getAllContacts() {
-    const contacts = await ContactModel.find();
+    const contacts = await ContactModel.find().sort({ ciradoEM: -1 });
     return contacts;
   }
 

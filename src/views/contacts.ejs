@@ -23,6 +23,7 @@
           <form
             action="<%= contact._id ? `/contacts/${contact._id}` : `/contacts` %>"
             method="POST"
+            data-validate="contactValidator"
           >
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
@@ -74,7 +75,7 @@
             <!-- BOTÕES -->
             <button
               type="submit"
-              class="btn btn-block <%= isEditing ? 'btn-warning' : 'btn-dark' %>"
+              class="btn btn-block <%= isEditing ? 'btn-info' : 'btn-dark' %>"
             >
               <%= isEditing ? "Atualizar contato" : "Salvar contato" %>
             </button>
@@ -109,7 +110,7 @@
                 <% if (contacts && contacts.length) { %> <%
                 contacts.forEach(function (c) { %>
                 <tr
-                  class="<%= isEditing && c._id.toString() === contact._id?.toString() ? 'table-warning' : '' %>"
+                  class="<%= isEditing && c._id.toString() === contact._id?.toString() ? 'table-info' : '' %>"
                 >
                   <td><%= c.nome %></td>
                   <td><%= c.sobrenome %></td>
@@ -120,7 +121,7 @@
                   <td class="text-center">
                     <a
                       href="/contacts/<%= c._id %>"
-                      class="btn btn-sm btn-warning"
+                      class="btn btn-sm btn-info"
                     >
                       Editar
                     </a>
@@ -128,21 +129,13 @@
 
                   <!-- DELETAR -->
                   <td class="text-center">
-                    <form
-                      action="/contacts/<%= c._id %>/delete"
-                      method="POST"
-                      style="display: inline"
-                    >
+                    <form action="/contacts/<%= c._id %>/delete" method="POST">
                       <input
                         type="hidden"
                         name="_csrf"
                         value="<%= csrfToken %>"
                       />
-                      <button
-                        type="submit"
-                        class="btn btn-sm btn-danger"
-                        onclick="return confirm('Deseja realmente excluir este contato?')"
-                      >
+                      <button type="submit" class="btn btn-sm btn-danger">
                         Deletar
                       </button>
                     </form>
