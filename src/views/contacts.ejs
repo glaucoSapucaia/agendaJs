@@ -4,24 +4,33 @@
   <div class="row justify-content-center">
     <div class="col-lg-8 my-4">
       <h1 class="text-center">Agenda</h1>
-      <p class="text-center lead">Seus contatos</p>
+      <p class="text-center lead">
+        <%= isEditing ? "Edite as informações do contato selecionado" :
+        "Organize seus contatos de forma simples e segura" %>
+      </p>
 
       <%- include("./includes/messages"); %>
 
       <!-- Card -->
       <div class="card shadow-sm">
         <div class="card-body">
-          <!-- FORMULÁRIO DE CONTATO -->
-          <h5 class="mb-3">Adicionar contato</h5>
+          <!-- TÍTULO DO FORM -->
+          <h5 class="mb-3 text-center">
+            <%= isEditing ? "Editar contato" : "Adicionar contato" %>
+          </h5>
 
-          <form action="/contacts" method="POST">
+          <!-- FORMULÁRIO -->
+          <form
+            action="<%= contact._id ? `/contacts/${contact._id}` : `/contacts` %>"
+            method="POST"
+          >
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="name">Nome</label>
                 <input
-                  value="<%= contact.nome %>"
+                  value="<%= contact.nome || '' %>"
                   type="text"
                   class="form-control"
                   id="name"
@@ -33,7 +42,7 @@
               <div class="form-group col-md-6">
                 <label for="lastname">Sobrenome</label>
                 <input
-                  value="<%= contact.sobrenome %>"
+                  value="<%= contact.sobrenome || '' %>"
                   type="text"
                   class="form-control"
                   id="lastname"
@@ -46,7 +55,7 @@
               <div class="form-group col-md-6">
                 <label for="phone">Telefone</label>
                 <input
-                  value="<%= contact.telefone %>"
+                  value="<%= contact.telefone || '' %>"
                   type="text"
                   class="form-control"
                   id="phone"
@@ -56,19 +65,28 @@
 
               <div class="form-group col-md-6">
                 <label for="email">E-mail</label>
-                <input
-                  value="<%= contact.email %>"
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                />
+                <input value="<%= contact.email || '' %>" type="email"
+                class="form-control" id="email" name="email" <%= isEditing ?
+                "readonly" : "" %> />
               </div>
             </div>
 
-            <button type="submit" class="btn btn-dark btn-block">
-              Salvar contato
+            <!-- BOTÕES -->
+            <button
+              type="submit"
+              class="btn btn-block <%= isEditing ? 'btn-warning' : 'btn-dark' %>"
+            >
+              <%= isEditing ? "Atualizar contato" : "Salvar contato" %>
             </button>
+
+            <% if (isEditing) { %>
+            <a
+              href="/contacts"
+              class="btn btn-outline-secondary btn-block mt-2"
+            >
+              Cancelar edição
+            </a>
+            <% } %>
           </form>
 
           <hr />
@@ -82,21 +100,57 @@
                   <th>Sobrenome</th>
                   <th>Telefone</th>
                   <th>Email</th>
+                  <th class="text-center">Editar</th>
+                  <th class="text-center">Deletar</th>
                 </tr>
               </thead>
 
               <tbody>
                 <% if (contacts && contacts.length) { %> <%
-                contacts.forEach(function (contact) { %>
-                <tr>
-                  <td><%= contact.nome %></td>
-                  <td><%= contact.sobrenome %></td>
-                  <td><%= contact.telefone %></td>
-                  <td><%= contact.email %></td>
+                contacts.forEach(function (c) { %>
+                <tr
+                  class="<%= isEditing && c._id.toString() === contact._id?.toString() ? 'table-warning' : '' %>"
+                >
+                  <td><%= c.nome %></td>
+                  <td><%= c.sobrenome %></td>
+                  <td><%= c.telefone %></td>
+                  <td><%= c.email %></td>
+
+                  <!-- EDITAR -->
+                  <td class="text-center">
+                    <a
+                      href="/contacts/<%= c._id %>"
+                      class="btn btn-sm btn-warning"
+                    >
+                      Editar
+                    </a>
+                  </td>
+
+                  <!-- DELETAR -->
+                  <td class="text-center">
+                    <form
+                      action="/contacts/<%= c._id %>/delete"
+                      method="POST"
+                      style="display: inline"
+                    >
+                      <input
+                        type="hidden"
+                        name="_csrf"
+                        value="<%= csrfToken %>"
+                      />
+                      <button
+                        type="submit"
+                        class="btn btn-sm btn-danger"
+                        onclick="return confirm('Deseja realmente excluir este contato?')"
+                      >
+                        Deletar
+                      </button>
+                    </form>
+                  </td>
                 </tr>
                 <% }) %> <% } else { %>
                 <tr>
-                  <td colspan="4" class="text-center text-muted">
+                  <td colspan="6" class="text-center text-muted">
                     Nenhum contato cadastrado
                   </td>
                 </tr>

@@ -6,6 +6,7 @@ exports.index = async (req, res) => {
   res.render("contacts", {
     contact: {},
     contacts,
+    isEditing: false,
   });
 };
 exports.addContact = async (req, res) => {
@@ -23,8 +24,22 @@ exports.addContact = async (req, res) => {
 
     req.flash("success", contact.success);
     return req.session.save(() => {
-      res.redirect(`/contacts/${contact.contact._id}`);
+      res.redirect(`/contacts`);
     });
+  } catch (e) {
+    console.error(e);
+    return res.render("404");
+  }
+};
+exports.editIndex = async (req, res) => {
+  try {
+    if (!req.params.id) return res.render("404");
+    const contact = await Contact.getContact(req.params.id);
+    const contacts = await Contact.getAllContacts();
+
+    if (!contact) return res.render("404");
+
+    res.render("contacts", { contact, contacts, isEditing: true });
   } catch (e) {
     console.error(e);
     return res.render("404");
@@ -33,12 +48,35 @@ exports.addContact = async (req, res) => {
 exports.editContact = async (req, res) => {
   try {
     if (!req.params.id) return res.render("404");
-    const contact = await Contact.getContact(req.params.id);
-    const contacts = await Contact.getAllContacts();
+    const contact = new Contact(req.body);
+    await contact.updateContact(req.params.id);
 
     if (!contact) return res.render("404");
 
-    res.render("contacts", { contact, contacts });
+    if (contact.errors.length > 0) {
+      req.flash("errors", contact.errors);
+      req.session.save(() => {
+        return res.redirect(`/contacts/${req.params.id}`);
+      });
+      return;
+    }
+
+    req.flash("success", contact.success);
+    req.session.save(() => {
+      return res.redirect(`/contacts`);
+    });
+  } catch (e) {
+    console.error(e);
+    return res.render("404");
+  }
+};
+exports.deleteContact = async (req, res) => {
+  try {
+    await Contact.removeContact(req.params.id);
+    req.flash("success", `Contato removido com sucesso!`);
+    req.session.save(() => {
+      res.redirect("/contacts");
+    });
   } catch (e) {
     console.error(e);
     return res.render("404");

@@ -28,7 +28,17 @@ route.post(
 route.get(
   "/contacts/:id",
   authMiddlewares.authMiddleware,
+  contactsController.editIndex
+);
+route.post(
+  "/contacts/:id",
+  authMiddlewares.authMiddleware,
   contactsController.editContact
+);
+route.post(
+  "/contacts/:id/delete",
+  authMiddlewares.authMiddleware,
+  contactsController.deleteContact
 );
 
 module.exports = route;

@@ -27,7 +27,7 @@ class Contact {
     this.success.push(`Contato ${this.body.email} registrado com sucesso!`);
   }
 
-  async fieldsValidation() {
+  async fieldsValidation(emailExistsVerify = true) {
     this.cleanData();
     const contact = await this.contactExists();
 
@@ -40,8 +40,10 @@ class Contact {
       this.errors.push("Campo email vazio!");
       return;
     }
-
-    if (contact) this.errors.push(`O contato ${this.body.email} já existe!`);
+    if (emailExistsVerify) {
+      if (contact) this.errors.push(`O contato ${this.body.email} já existe!`);
+      return;
+    }
 
     if (!validator.isEmail(this.body.email))
       this.errors.push("Email inválido!");
@@ -76,6 +78,30 @@ class Contact {
   static async getAllContacts() {
     const contacts = await ContactModel.find();
     return contacts;
+  }
+
+  static async removeContact(id) {
+    if (typeof id !== "string") return;
+
+    const contact = ContactModel.findById(id);
+    if (!contact) return;
+
+    await ContactModel.findByIdAndDelete(id);
+  }
+
+  async updateContact(id) {
+    if (typeof id !== "string") return;
+    const emailExistsVerify = false;
+
+    await this.fieldsValidation(emailExistsVerify);
+    if (this.errors.length > 0) return;
+
+    this.contact = await ContactModel.findByIdAndUpdate(id, this.body, {
+      new: true,
+    });
+    this.success.push(
+      `Edição do contato ${this.contact.email} efetuada com sucesso!`
+    );
   }
 }
 
