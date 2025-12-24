@@ -6,12 +6,74 @@
       <h1 class="text-center">Agenda</h1>
       <p class="text-center lead">Seus contatos</p>
 
-      <%- include('./includes/messages'); %>
+      <%- include("./includes/messages"); %>
 
       <!-- Card -->
       <div class="card shadow-sm">
         <div class="card-body">
-          <!-- Tabela -->
+          <!-- FORMULÁRIO DE CONTATO -->
+          <h5 class="mb-3">Adicionar contato</h5>
+
+          <form action="/contacts" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="name">Nome</label>
+                <input
+                  value="<%= contact.nome %>"
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  required
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="lastname">Sobrenome</label>
+                <input
+                  value="<%= contact.sobrenome %>"
+                  type="text"
+                  class="form-control"
+                  id="lastname"
+                  name="lastname"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="phone">Telefone</label>
+                <input
+                  value="<%= contact.telefone %>"
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  name="phone"
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="email">E-mail</label>
+                <input
+                  value="<%= contact.email %>"
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-block">
+              Salvar contato
+            </button>
+          </form>
+
+          <hr />
+
+          <!-- TABELA -->
           <div class="table-responsive mt-3">
             <table class="table table-hover">
               <thead class="thead-dark">
@@ -24,24 +86,21 @@
               </thead>
 
               <tbody>
+                <% if (contacts && contacts.length) { %> <%
+                contacts.forEach(function (contact) { %>
                 <tr>
-                  <td>Nome</td>
-                  <td>Sobrenome</td>
-                  <td>Telefone</td>
-                  <td>Email</td>
+                  <td><%= contact.nome %></td>
+                  <td><%= contact.sobrenome %></td>
+                  <td><%= contact.telefone %></td>
+                  <td><%= contact.email %></td>
                 </tr>
+                <% }) %> <% } else { %>
                 <tr>
-                  <td>Nome</td>
-                  <td>Sobrenome</td>
-                  <td>Telefone</td>
-                  <td>Email</td>
+                  <td colspan="4" class="text-center text-muted">
+                    Nenhum contato cadastrado
+                  </td>
                 </tr>
-                <tr>
-                  <td>Nome</td>
-                  <td>Sobrenome</td>
-                  <td>Telefone</td>
-                  <td>Email</td>
-                </tr>
+                <% } %>
               </tbody>
             </table>
           </div>
