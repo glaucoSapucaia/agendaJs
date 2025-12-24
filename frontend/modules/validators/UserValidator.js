@@ -1,4 +1,4 @@
-import validator from "validator";
+import isEmail from "validator/lib/isEmail";
 import FormValidator from "./interfaces/FormValidator.js";
 
 export default class UserValidator extends FormValidator {
@@ -26,6 +26,6 @@ export default class UserValidator extends FormValidator {
   }
 
   isValidEmail(email) {
-    return validator.isEmail(email);
+    return isEmail(email);
   }
 }

@@ -15,6 +15,7 @@ const routes = require("./routes");
 const app = express();
 const helmet = require("helmet");
 
+const isProduction = process.env.NODE_ENV === "production";
 const sessionOpts = session({
   secret: process.env.SESSION_SECRET,
   store: MongoStore.create({
@@ -26,7 +27,7 @@ const sessionOpts = session({
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     sameSite: "lax",
-    secure: false,
+    secure: isProduction,
   },
 });
 
